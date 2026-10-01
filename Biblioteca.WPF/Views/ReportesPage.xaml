@@ -1,0 +1,73 @@
+﻿<Page x:Class="Biblioteca.WPF.Views.ReportesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      Title="Reportes" ScrollViewer.CanContentScroll="False">
+
+    <Grid Margin="28,16,28,20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                
+            </StackPanel>
+            <ui:ProgressRing x:Name="spinner" Grid.Column="1" IsIndeterminate="True"
+                             Width="32" Height="32" Visibility="Collapsed" VerticalAlignment="Center" />
+        </Grid>
+
+        <ui:Card Grid.Row="1" Padding="18">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,16">
+                    <StackPanel Margin="0,0,16,0">
+                        <TextBlock Text="Desde" Style="{StaticResource FieldLabel}" Margin="0,0,0,6" />
+                        <DatePicker x:Name="dpDesde" Width="140" />
+                    </StackPanel>
+
+                    <StackPanel Margin="0,0,16,0">
+                        <TextBlock Text="Hasta" Style="{StaticResource FieldLabel}" Margin="0,0,0,6" />
+                        <DatePicker x:Name="dpHasta" Width="140" />
+                    </StackPanel>
+
+                    <ui:Button Content="Generar reporte"
+                                VerticalAlignment="Bottom"
+                               Click="btnGenerar_Click" />
+                </StackPanel>
+
+                <DataGrid x:Name="dgReporte" Grid.Row="1" Style="{StaticResource ModernGrid}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="#" Binding="{Binding PrestamoId}" Width="40" ElementStyle="{StaticResource NumberCell}" />
+                        <DataGridTextColumn Header="Socio" Binding="{Binding NombreSocio}" Width="2*" ElementStyle="{StaticResource TextCell}" />
+                        <DataGridTextColumn Header="Fecha prestamo" Binding="{Binding FechaPrestamo, StringFormat=dd/MM/yyyy}" Width="110" ElementStyle="{StaticResource TextCell}" />
+                        <DataGridTextColumn Header="Fecha limite" Binding="{Binding FechaLimite, StringFormat=dd/MM/yyyy}" Width="110" ElementStyle="{StaticResource TextCell}" />
+                        
+                        <!-- Columna para mostrar los libros del prestamo concatenados -->
+                        <DataGridTextColumn Header="Libros" Binding="{Binding ResumenLibros}" Width="3*" ElementStyle="{StaticResource TextCell}" />
+                        
+                        <DataGridTextColumn Header="Estado" Binding="{Binding Estado}" Width="100" ElementStyle="{StaticResource TextCell}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <StackPanel x:Name="vacios" Grid.Row="1" Style="{StaticResource EmptyState}">
+                    
+                    <TextBlock Text="No se encontraron prestamos en el rango indicado." Margin="0,8,0,0" HorizontalAlignment="Center" Style="{StaticResource HintText}" />
+                </StackPanel>
+            </Grid>
+        </ui:Card>
+    </Grid>
+</Page>
+
+
+
+

@@ -1,0 +1,118 @@
+﻿<Page x:Class="Biblioteca.WPF.Views.PrestamosPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      Title="Prestamos" ScrollViewer.CanContentScroll="False">
+
+    <Grid Margin="28,16,28,20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                
+            </StackPanel>
+            <ui:ProgressRing x:Name="spinner" Grid.Column="1" IsIndeterminate="True"
+                             Width="32" Height="32" Visibility="Collapsed" VerticalAlignment="Center" />
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="16" />
+                <ColumnDefinition Width="360" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Historial -->
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="12" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <ui:Card Grid.Row="0" Padding="14">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="Historial de prestamos" Style="{StaticResource SectionTitle}" Margin="0,0,0,10" />
+                        <DataGrid x:Name="dgPrestamos" Grid.Row="1" Style="{StaticResource ModernGrid}"
+                                  SelectionChanged="dgPrestamos_SelectionChanged">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="#" Binding="{Binding PrestamoId}" Width="40" ElementStyle="{StaticResource NumberCell}" />
+                                <DataGridTextColumn Header="Socio" Binding="{Binding NombreSocio}" Width="2*" ElementStyle="{StaticResource TextCell}" />
+                                <DataGridTextColumn Header="Prestamo" Binding="{Binding FechaPrestamo, StringFormat=dd/MM/yyyy}" Width="100" ElementStyle="{StaticResource TextCell}" />
+                                <DataGridTextColumn Header="Limite" Binding="{Binding FechaLimite, StringFormat=dd/MM/yyyy}" Width="100" ElementStyle="{StaticResource TextCell}" />
+                                <DataGridTextColumn Header="Estado" Binding="{Binding Estado}" Width="100" ElementStyle="{StaticResource TextCell}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <StackPanel x:Name="vacios" Grid.Row="1" Style="{StaticResource EmptyState}">
+                            
+                            <TextBlock Text="No hay prestamos." Margin="0,8,0,0" HorizontalAlignment="Center" Style="{StaticResource HintText}" />
+                        </StackPanel>
+                    </Grid>
+                </ui:Card>
+
+                <ui:Card Grid.Row="2" Padding="14">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <TextBlock x:Name="lblDetalle" Grid.Row="0" Text="Detalle del prestamo" Style="{StaticResource SectionTitle}" Margin="0,0,0,10" />
+                        <DataGrid x:Name="dgDetalle" Grid.Row="1" Style="{StaticResource ModernGrid}"
+                                  SelectionChanged="dgDetalle_SelectionChanged">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Titulo" Binding="{Binding TituloLibro}" Width="2*" ElementStyle="{StaticResource TextCell}" />
+                                <DataGridTextColumn Header="Devolucion" Binding="{Binding FechaDevolucion, StringFormat=dd/MM/yyyy}" Width="100" ElementStyle="{StaticResource TextCell}" />
+                                <DataGridTextColumn Header="Multa" Binding="{Binding MultaTexto}" Width="80" ElementStyle="{StaticResource TextCell}" />
+                                <DataGridTextColumn Header="Estado" Binding="{Binding EstadoDetalle}" Width="100" ElementStyle="{StaticResource TextCell}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </ui:Card>
+            </Grid>
+
+            <!-- Acciones -->
+            <ui:Card Grid.Column="2" Padding="18">
+                <StackPanel>
+                    <TextBlock Text="Nuevo prestamo" Style="{StaticResource SectionTitle}" Margin="0,0,0,10" />
+
+                    <TextBlock Text="Socio" Style="{StaticResource FieldLabel}" />
+                    <ComboBox x:Name="cmbSocio" DisplayMemberPath="Nombre" SelectedValuePath="SocioId" HorizontalAlignment="Stretch" />
+
+                    <TextBlock Text="Libros disponibles" Style="{StaticResource FieldLabel}" />
+                    <TextBlock Text="Manten presionada la tecla Ctrl para seleccionar multiples libros." Style="{StaticResource HintText}" Margin="0,0,0,6" />
+                    <ListBox x:Name="lstLibros" Height="140" SelectionMode="Multiple" DisplayMemberPath="Titulo" />
+
+                    <ui:Button Content="Registrar prestamo" Margin="0,16,0,0" HorizontalAlignment="Stretch" 
+                               Click="btnRegistrar_Click" />
+
+                    <Separator Margin="0,20" />
+
+                    <TextBlock Text="Devolucion" Style="{StaticResource SectionTitle}" Margin="0,0,0,10" />
+                    <TextBlock Text="Selecciona un libro pendiente en el detalle de la izquierda para devolverlo." Style="{StaticResource HintText}" TextWrapping="Wrap" Margin="0,0,0,12" />
+
+                    <ui:Button x:Name="btnDevolver" Content="Devolver libro" HorizontalAlignment="Stretch"
+                                IsEnabled="False"
+                               Click="btnDevolver_Click" />
+
+                    <ui:Button Content="Refrescar vista" Margin="0,8,0,0" HorizontalAlignment="Stretch"
+                                Click="btnRefrescar_Click" />
+                </StackPanel>
+            </ui:Card>
+        </Grid>
+    </Grid>
+</Page>
+
+
+
+
